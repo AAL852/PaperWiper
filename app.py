@@ -17,8 +17,9 @@ from engine import process_pdf
 # ── Config ───────────────────────────────────────────────────────────────────
 UPLOAD_FOLDER  = Path("uploads")
 OUTPUT_FOLDER  = Path("outputs")
-MAX_FILE_MB    = 50
-CLEANUP_AFTER  = 3600   # delete files after 1 hour (seconds)
+MAX_FILE_MB    = 100               # increased to 100MB
+CLEANUP_AFTER  = 3600              # delete files after 1 hour
+PROCESS_DPI    = 150               # reduced DPI for faster processing on free tier
 
 UPLOAD_FOLDER.mkdir(exist_ok=True)
 OUTPUT_FOLDER.mkdir(exist_ok=True)
@@ -65,7 +66,7 @@ def run_job(job_id: str, input_path: str):
         stats = process_pdf(
             input_path, output_path,
             preview_path=preview_path,
-            dpi=200,
+            dpi=PROCESS_DPI,
             progress_callback=progress,
         )
         with jobs_lock:
